@@ -12,7 +12,7 @@ ami='ami-9eaa1cf6'
 instanceName=BaseSpaceDev  
 # Type of instance
 InstanceType=m3.xlarge     
-# Size of the /data and /genomes volumes (in GB)
+# Size of the /data and /genomes volumes (in GB), do not exceed 1000 GB
 data=250
 genomes=25
 # Should the volume survive a terminiation of the Instance ( true|false )
@@ -181,7 +181,7 @@ for i in  {1..2} ; do
         --instance-ids $instance_id \
 	--output text \
         --query "Reservations[*].Instances[*].BlockDeviceMappings[$i].Ebs.VolumeId")
-    if [[ "$i" = "1" ]]; then tag='BaseSpaceDev data'; else tag='BaseSpaceDev genomes'; fi
+    if [[ "$i" = "1" ]]; then tag="instanceName data"; else tag="$instanceName genomes"; fi
     aws ec2 create-tags --resources $volume_id --tags Key=Name,Value="$tag"
 done
 
