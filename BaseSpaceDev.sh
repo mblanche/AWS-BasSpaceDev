@@ -83,8 +83,8 @@ EOF
 # Second, create a new securiy group
 # ------------------------------------------------------------
 GroupId=$(aws --out text ec2 create-security-group \
-              --group-name BaseSpaceDev-$RANDOM \
-              --description "BaseSpaceDev initial security group" \
+              --group-name $instanceName-$RANDOM \
+              --description "$instanceName initial security group" \
               --query 'GroupId')
 
 #
@@ -266,7 +266,7 @@ mount -a
 echo deb http://basespace-apt.s3.amazonaws.com spacedock main | tee -a /etc/apt/sources.list
 apt-get update -q 
 
-# Installing the packages (and my favorite text editor)
+# Installing the packages
 apt-get install -q -y --force-yes mono-complete docker.io spacedock
 
 # Linking the apt-get installed mono to /usr/local/bin
